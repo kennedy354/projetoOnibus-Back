@@ -1,2 +1,5 @@
 # projetoOnibus-Back
-back end
+
+npm install
+tsc
+npm run dev
