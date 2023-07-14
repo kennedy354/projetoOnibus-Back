@@ -1,0 +1,32 @@
+{
+  "name": "compass-desafio1",
+  "version": "1.0.0",
+  "description": "pet shop",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
+    "start": "node dist/server.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\""
+  },
+  "author": "kennedy",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.1.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.3.1",
+    "swagger-ui-express": "^4.6.3",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/node": "^20.2.5",
+    "@types/swagger-ui-express": "^4.1.3",
+    "@types/uuid": "^9.0.2",
+    "concurrently": "^8.1.0",
+    "nodemon": "^2.0.22",
+    "typescript": "^5.1.3"
+  }
+}
