@@ -48,11 +48,6 @@ export async function atualizarPonto(req: Request, res: Response){
         pontoReferencia
     }
 
-    if(!rua || !bairro || !pontoReferencia){
-        res.status(400).json({error: 'Campos obrigatórios faltando'})
-        return
-    }
-
     try {
         const paradaTeste = await Parada.findById(id)
         if (!paradaTeste) {

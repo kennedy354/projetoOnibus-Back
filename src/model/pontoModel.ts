@@ -12,6 +12,6 @@ const ParadaSchema = new Schema<sParada>({
   pontoReferencia: { type: String, required: true }
 })
 
-const Parada = mongoose.model<sParada>('Pontos', ParadaSchema);
+const Parada = mongoose.model<sParada>('Ponto', ParadaSchema);
 
 export default Parada
