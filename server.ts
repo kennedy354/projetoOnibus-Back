@@ -1,24 +1,28 @@
-import express, {Express, Request, Response} from 'express'
-import mongoose from 'mongoose'
-import router from './src/routes/routes'
+import express, { Express, Request, Response } from "express";
+import mongoose from "mongoose";
+import router from "./src/routes/routes";
+import cors from "cors";
+import dotenv from 'dotenv';
 
-const app: Express = express()
-const port = 8080
+const app: Express = express();
+const port = 8080;
+
+dotenv.config();
+app.use(cors());
 
 app.use(
-    express.urlencoded({
-        extended: true
-    })
-)
+  express.urlencoded({
+    extended: true,
+  })
+);
 
-app.use(router)
+app.use(router);
 
-//senha mongo 123
 mongoose
-.connect('mongodb+srv://kennedy:123@cluster0.vantho4.mongodb.net/')
-.then(()=> {
+  .connect(process.env.MONGODB_URL!)
+  .then(() => {
     app.listen(port, () => {
-        console.log(`O servidor está no link http://localhost:${port}`)
-    })
-})
-.catch((err)=> console.log(err))
+      console.log(`O servidor está no link http://localhost:${port}`);
+    });
+  })
+  .catch((err) => console.log(err));
