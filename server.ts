@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from "express";
 import mongoose from "mongoose";
 import router from "./src/routes/routes";
 import cors from "cors";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 const app: Express = express();
 const port = 8080;
