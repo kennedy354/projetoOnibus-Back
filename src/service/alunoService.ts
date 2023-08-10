@@ -35,7 +35,7 @@ export async function criarAluno(req: Request, res: Response) {
     !cpf ||
     !dataNascimento ||
     !telefone ||
-    !adm ||
+    
     !ponto ||
     !onibus
   ) {
