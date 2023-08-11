@@ -1,7 +1,7 @@
 import express, {Express, Request, Response} from 'express'
 import { atualizarPonto, criarPonto, deletarPonto, mostrarPontos } from '../service/pontoService'
 import { atualizarOnibus, criarOnibus, deletarOnibus, mostrarOnibus } from '../service/onibusService'
-import { atualizarAluno, criarAluno, deletarAluno, mostrarAlunos } from '../service/alunoService'
+import { atualizarAluno, checkIN, criarAluno, deletarAluno, listarVaiHoje, mostrarAlunos } from '../service/alunoService'
 
 const router = express.Router()
 router.use(express.json())
@@ -32,5 +32,10 @@ router.route('/aluno').get(mostrarAlunos)
 router.route('/aluno/:id').put(atualizarAluno)
 
 router.route('/aluno/:id').delete(deletarAluno)
+
+router.route('/aluno/:id/checkIn').put(checkIN)
+
+//Outras rotas
+router.route('/vaiHoje').get(listarVaiHoje)
 
 export default router

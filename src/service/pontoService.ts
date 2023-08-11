@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import Parada from "../model/pontoModel";
+import Aluno from "../model/alunoModel";
 
 export async function criarPonto(req: Request, res: Response) {
   const { rua, bairro, pontoReferencia } = req.body;
@@ -44,6 +45,11 @@ export async function atualizarPonto(req: Request, res: Response) {
     pontoReferencia,
   };
 
+  if (!rua || !bairro || !pontoReferencia) {
+    res.status(400).json({ message: "Campos obrigatórios faltando" });
+    return;
+  }
+
   try {
     const paradaTeste = await Parada.findById(id);
     if (!paradaTeste) {
@@ -66,6 +72,14 @@ export async function deletarPonto(req: Request, res: Response) {
     const parada = await Parada.findById(id);
     if (!parada) {
       res.status(404).json({ message: "Ponto não encontrado" });
+      return;
+    }
+
+    const alunoComPonto = await Aluno.findOne({ ponto: id });
+    if (alunoComPonto) {
+      res.status(400).json({
+        message: "O ponto está associado a um aluno e não pode ser deletado",
+      });
       return;
     }
 

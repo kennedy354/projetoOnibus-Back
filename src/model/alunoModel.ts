@@ -12,6 +12,7 @@ interface sAluno extends Document{
     adm: boolean
     ponto: mongoose.Types.ObjectId | typeof sParada
     onibus: mongoose.Types.ObjectId | typeof sOnibus
+    vaiHoje: boolean
 }
 
 const alunoSchema = new Schema<sAluno>({
@@ -23,7 +24,8 @@ const alunoSchema = new Schema<sAluno>({
     telefone: { type: String, required: true },
     adm: { type: Boolean, required: true },
     ponto: { type: mongoose.Types.ObjectId, ref: 'Ponto', required: true },
-    onibus: { type: mongoose.Types.ObjectId, ref: 'Onibu', required: true }
+    onibus: { type: mongoose.Types.ObjectId, ref: 'Onibu', required: true },
+    vaiHoje: { type: Boolean, required: true }
 })
 
 const Aluno = mongoose.model<sAluno>('Aluno', alunoSchema);

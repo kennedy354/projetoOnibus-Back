@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import Onibus from "../model/onibusModel";
+import Aluno from "../model/alunoModel";
 
 export async function criarOnibus(req: Request, res: Response) {
   const { motorista, placa, ano } = req.body;
@@ -43,6 +44,11 @@ export async function atualizarOnibus(req: Request, res: Response) {
     ano,
   };
 
+  if (!motorista || !placa || !ano) {
+    res.status(400).json({ message: "Campos obrigatórios faltando" });
+    return;
+  }
+
   try {
     const onibusTeste = await Onibus.findById(id);
     if (!onibusTeste) {
@@ -65,6 +71,14 @@ export async function deletarOnibus(req: Request, res: Response) {
     const onibusTeste = await Onibus.findById(id);
     if (!onibusTeste) {
       res.status(404).json({ message: "Onibus não encontrado" });
+      return;
+    }
+
+    const aluno = await Aluno.findOne({ onibus: id });
+    if (aluno) {
+      res.status(400).json({
+        message: "O ônibus está associado a um aluno e não pode ser deletado",
+      });
       return;
     }
 

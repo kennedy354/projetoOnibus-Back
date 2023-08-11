@@ -16,6 +16,8 @@ export async function criarAluno(req: Request, res: Response) {
     onibus,
   } = req.body;
 
+  const vaiHoje = false;
+
   const aluno = {
     nome,
     senha,
@@ -26,6 +28,7 @@ export async function criarAluno(req: Request, res: Response) {
     adm,
     ponto,
     onibus,
+    vaiHoje,
   };
 
   if (
@@ -35,7 +38,6 @@ export async function criarAluno(req: Request, res: Response) {
     !cpf ||
     !dataNascimento ||
     !telefone ||
-    
     !ponto ||
     !onibus
   ) {
@@ -143,5 +145,40 @@ export async function deletarAluno(req: Request, res: Response) {
     res.status(204).json({ message: "Aluno deletado" });
   } catch (error) {
     res.status(500).json({ message: "Erro ao deletar aluno" });
+  }
+}
+
+export async function checkIN(req: Request, res: Response) {
+  const { id } = req.params;
+
+  try {
+    const aluno = await Aluno.findById(id);
+    if (!aluno) {
+      res.status(404).json({ message: "Aluno não encontrado" });
+      return;
+    }
+
+    aluno.vaiHoje = true;
+    await aluno.save();
+
+    res.status(200).json({ message: "Sucesso" });
+  } catch (error) {
+    res.status(500).json({ message: "Erro" });
+  }
+}
+
+export async function listarVaiHoje(req: Request, res: Response) {
+  try {
+    const alunoVaiHoje = await Aluno.find({ vaiHoje: true });
+
+    const pontosVaiHojeIds = [
+      ...new Set(alunoVaiHoje.map((aluno) => aluno.ponto)),
+    ];
+
+    const pontosVaiHoje = await Parada.find({ _id: { $in: pontosVaiHojeIds } });
+
+    res.status(200).json({ pontosVaiHoje });
+  } catch (error) {
+    res.status(500).json({ message: "Erro" });
   }
 }
