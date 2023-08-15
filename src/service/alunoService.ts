@@ -149,7 +149,8 @@ export async function deletarAluno(req: Request, res: Response) {
 }
 
 export async function checkIN(req: Request, res: Response) {
-  const { id } = req.params;
+  //Usar variaves do token em outras funções //fica parecendo um erro, mas funciona
+  const id = req.user.id;
 
   try {
     const aluno = await Aluno.findById(id);
@@ -158,10 +159,15 @@ export async function checkIN(req: Request, res: Response) {
       return;
     }
 
-    aluno.vaiHoje = true;
-    await aluno.save();
-
-    res.status(200).json({ message: "Sucesso" });
+    if (aluno.vaiHoje === false) {
+      aluno.vaiHoje = true;
+      await aluno.save();
+      res.status(200).json({ message: "Check-IN realizado com Sucesso" });
+    } else if (aluno.vaiHoje === true) {
+      aluno.vaiHoje = false;
+      await aluno.save();
+      res.status(200).json({ message: "Check-IN Cancelado" });
+    }
   } catch (error) {
     res.status(500).json({ message: "Erro" });
   }
