@@ -1,8 +1,10 @@
 # projetoOnibus-Back
 
+Renomeie o arquivo "exemplo.env" para ".env" e substitua o link exemplo pelo seu link do MongoDB Atlas
+
 npm install
 
-tsc
+npx tsc
 
 npm run dev
 
