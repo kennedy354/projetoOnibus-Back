@@ -2,6 +2,12 @@ import express, { Express, Request, Response } from "express";
 import Aluno from "../model/alunoModel";
 import Parada from "../model/pontoModel";
 import Onibus from "../model/onibusModel";
+import jwt, { JwtPayload } from "jsonwebtoken";
+
+interface DecodedToken extends JwtPayload {
+  id: string;
+  email: string;
+}
 
 export async function criarAluno(req: Request, res: Response) {
   const {
@@ -150,7 +156,7 @@ export async function deletarAluno(req: Request, res: Response) {
 
 export async function checkIN(req: Request, res: Response) {
   //Usar variaves do token em outras funções //fica parecendo um erro, mas funciona
-  const id = req.user.id;
+  const id = req.user?.id;
 
   try {
     const aluno = await Aluno.findById(id);

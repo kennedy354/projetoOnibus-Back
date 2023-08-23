@@ -1,5 +1,19 @@
 import { NextFunction, RequestHandler } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+
+interface DecodedToken extends JwtPayload {
+  id: string;
+  email: string;
+}
+
+// Estendendo a interface de definição de tipo do Express Request
+declare global {
+  namespace Express {
+    interface Request {
+      user?: DecodedToken;
+    }
+  }
+}
 
 const autenticar: RequestHandler = (req, res, next) => {
   //console.log(req.headers);
@@ -14,7 +28,7 @@ const autenticar: RequestHandler = (req, res, next) => {
 
   try {
     //Usar variaves do token em outras funções //fica parecendo um erro, mas funciona
-    const decoded = jwt.verify(token, "jwtSecret");
+    const decoded = jwt.verify(token, "jwtSecret") as DecodedToken;
     const { id, email } = decoded;
     req.user = { id, email };
 
